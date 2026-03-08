@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import EnvelopeOpener from "@/components/EnvelopeOpener";
 import HeroSection from "@/components/HeroSection";
@@ -16,12 +16,35 @@ import MusicToggle from "@/components/MusicToggle";
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Preload audio during envelope stage
+  useEffect(() => {
+    const audio = new Audio("/music/background.mp3");
+    audio.preload = "auto";
+    audio.loop = false;
+    audio.volume = 0.3;
+    audio.currentTime = 26;
+    audioRef.current = audio;
+
+    return () => {
+      audio.pause();
+    };
+  }, []);
+
+  const handleOpen = () => {
+    // Start music immediately on user interaction (seal tap)
+    if (audioRef.current) {
+      audioRef.current.play().catch(() => {});
+    }
+    setIsOpen(true);
+  };
 
   return (
     <main>
       <AnimatePresence mode="wait">
         {!isOpen && (
-          <EnvelopeOpener key="envelope" onOpen={() => setIsOpen(true)} />
+          <EnvelopeOpener key="envelope" onOpen={handleOpen} />
         )}
       </AnimatePresence>
 
@@ -40,7 +63,7 @@ export default function Home() {
           <GiftsSection />
           <RSVPSection />
           <Footer />
-          <MusicToggle />
+          <MusicToggle audioRef={audioRef} />
         </motion.div>
       )}
     </main>

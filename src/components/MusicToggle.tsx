@@ -1,40 +1,39 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, type RefObject } from "react";
 import { motion } from "framer-motion";
 
-export default function MusicToggle() {
+interface MusicToggleProps {
+  audioRef: RefObject<HTMLAudioElement | null>;
+}
+
+export default function MusicToggle({ audioRef }: MusicToggleProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    audioRef.current = new Audio("/music/background.mp3");
-    audioRef.current.loop = false;
-    audioRef.current.volume = 0.3;
-    audioRef.current.currentTime = 26;
-
     const audio = audioRef.current;
+    if (!audio) return;
+
+    // Check if already playing (started from page.tsx on seal tap)
+    setIsPlaying(!audio.paused);
+
     const handleEnded = () => {
       audio.currentTime = 26;
       audio.play();
     };
-    audio.addEventListener("ended", handleEnded);
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
 
-    // Auto-play when card opens (user already interacted with envelope)
-    audio.play().then(() => {
-      setIsPlaying(true);
-    }).catch(() => {
-      // Browser blocked autoplay
-    });
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
 
     return () => {
       audio.removeEventListener("ended", handleEnded);
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
     };
-  }, []);
+  }, [audioRef]);
 
   const toggleMusic = () => {
     if (!audioRef.current) return;
