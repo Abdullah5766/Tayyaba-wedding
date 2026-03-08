@@ -10,11 +10,10 @@ export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80')`,
-        }}
+      <img
+        src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80"
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover object-[center_50%]"
       />
       {/* Overlay */}
       <div className="absolute inset-0 bg-burgundy-dark/50" />
@@ -77,7 +76,7 @@ export default function HeroSection() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1.2 }}
         >
-          <p className="text-xs sm:text-sm tracking-[0.3em] uppercase text-champagne/70 !mb-3 font-body">
+          <p className="text-xs sm:text-sm tracking-[0.3em] uppercase text-champagne/70 !mb-10 font-body">
             Confirm Your Attendance
           </p>
           <motion.div

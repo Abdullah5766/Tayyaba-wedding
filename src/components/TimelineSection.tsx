@@ -130,71 +130,25 @@ export default function TimelineSection() {
           What we have prepared for you
         </motion.p>
 
-        {/* Desktop: Horizontal */}
+        {/* Vertical timeline */}
         <motion.div
-          className="hidden sm:grid grid-cols-7 !gap-4"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          {schedule.map((item) => (
-            <motion.div
-              key={item.time}
-              variants={itemVariants}
-              className="flex flex-col items-center text-center"
-            >
-              {/* Time badge */}
-              <span className="inline-block !px-3 !py-1 rounded-full bg-burgundy text-champagne text-xs font-body tracking-wider !mb-4">
-                {item.time}
-              </span>
-
-              {/* Icon circle */}
-              <div className="w-14 h-14 rounded-full border-2 border-burgundy/20 flex items-center justify-center !mb-3">
-                <svg
-                  className="w-6 h-6 text-burgundy/70"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                >
-                  {item.icon}
-                </svg>
-              </div>
-
-              {/* Title & Description */}
-              <h4 className="font-display text-sm font-semibold text-text-dark !mb-1">
-                {item.title}
-              </h4>
-              <p className="text-xs text-text-dark/50 font-body leading-relaxed">
-                {item.description}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Mobile: Vertical timeline */}
-        <motion.div
-          className="sm:hidden !space-y-8"
+          className="relative max-w-lg !mx-auto"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
-          {schedule.map((item) => (
+          {schedule.map((item, index) => (
             <motion.div
               key={item.time}
               variants={itemVariants}
-              className="flex items-start !gap-4"
+              className="flex items-start !gap-5"
             >
-              {/* Time + Icon */}
-              <div className="flex flex-col items-center flex-shrink-0">
-                <span className="inline-block !px-3 !py-1 rounded-full bg-burgundy text-champagne text-xs font-body tracking-wider !mb-2">
-                  {item.time}
-                </span>
-                <div className="w-12 h-12 rounded-full border-2 border-burgundy/20 flex items-center justify-center">
+              {/* Left: Icon + Connecting line */}
+              <div className="flex flex-col items-center shrink-0">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-burgundy/20 bg-cream flex items-center justify-center z-10">
                   <svg
-                    className="w-5 h-5 text-burgundy/70"
+                    className="w-5 h-5 sm:w-6 sm:h-6 text-burgundy/70"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -203,13 +157,23 @@ export default function TimelineSection() {
                     {item.icon}
                   </svg>
                 </div>
+                {/* Vertical line connecting to next icon */}
+                {index < schedule.length - 1 && (
+                  <div className="w-px flex-1 min-h-[40px] bg-burgundy/15" />
+                )}
               </div>
-              {/* Text */}
-              <div className="!pt-1">
-                <h4 className="font-display text-base font-semibold text-text-dark !mb-1">
-                  {item.title}
-                </h4>
-                <p className="text-sm text-text-dark/50 font-body">
+
+              {/* Right: Time badge + Title + Description */}
+              <div className="!pt-2 !pb-8">
+                <div className="flex items-center !gap-3 !mb-1">
+                  <span className="inline-block !px-3 !py-1 rounded-full bg-burgundy text-champagne text-xs font-body tracking-wider">
+                    {item.time}
+                  </span>
+                  <h4 className="font-display text-base sm:text-lg font-semibold text-text-dark">
+                    {item.title}
+                  </h4>
+                </div>
+                <p className="text-sm text-text-dark/50 font-body !mt-1">
                   {item.description}
                 </p>
               </div>

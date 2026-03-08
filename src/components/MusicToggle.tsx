@@ -9,10 +9,26 @@ export default function MusicToggle() {
 
   useEffect(() => {
     audioRef.current = new Audio("/music/background.mp3");
-    audioRef.current.loop = true;
+    audioRef.current.loop = false;
     audioRef.current.volume = 0.3;
+    audioRef.current.currentTime = 26;
+
+    const audio = audioRef.current;
+    const handleEnded = () => {
+      audio.currentTime = 26;
+      audio.play();
+    };
+    audio.addEventListener("ended", handleEnded);
+
+    // Auto-play when card opens (user already interacted with envelope)
+    audio.play().then(() => {
+      setIsPlaying(true);
+    }).catch(() => {
+      // Browser blocked autoplay
+    });
 
     return () => {
+      audio.removeEventListener("ended", handleEnded);
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
