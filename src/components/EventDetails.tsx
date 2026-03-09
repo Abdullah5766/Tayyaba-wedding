@@ -74,7 +74,7 @@ export default function EventDetails() {
             Location
           </h3>
           <p className="text-center font-body text-text-dark/80 font-medium !mb-2">
-            The Grand Garden Estate
+            Mian Rafiq Farm House, Green Acres, Pine Avenue
           </p>
           <div className="flex items-center justify-center !gap-2 text-text-dark/60 text-sm !mb-8">
             <svg
@@ -90,7 +90,7 @@ export default function EventDetails() {
                 d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <span className="font-body">5:00 PM to 1:00 AM</span>
+            <span className="font-body">7:00 PM to 12:00 AM</span>
           </div>
 
           {/* Venue Image */}
@@ -105,7 +105,7 @@ export default function EventDetails() {
           {/* Map Embed */}
           <div className="rounded-xl overflow-hidden !mb-6">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0977609058867!2d-122.41941508468176!3d37.77492977975905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858064f1e0c0c1%3A0x5a08f9e5e1c5d20!2sSan%20Francisco%20City%20Hall!5e0!3m2!1sen!2sus!4v1234567890"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d864.2!2d74.2395722!3d31.4074889!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3919018011b7eee1%3A0xb9de06389ab6eeb8!2sMian%20Rafiq%20Orchard!5e0!3m2!1sen!2s!4v1234567890"
               width="100%"
               height="200"
               style={{ border: 0 }}
@@ -119,7 +119,7 @@ export default function EventDetails() {
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row !gap-3 justify-center">
             <a
-              href="https://maps.google.com"
+              href="https://maps.app.goo.gl/tdFdPVJtx3n7Lntd8"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center !gap-2 !px-6 !py-3 rounded-full border border-text-dark/20 text-text-dark/70 hover:bg-text-dark/5 transition-colors font-body text-sm"
@@ -144,25 +144,7 @@ export default function EventDetails() {
               </svg>
               Open in Maps
             </a>
-            <a
-              href="#"
-              className="inline-flex items-center justify-center !gap-2 !px-6 !py-3 rounded-full border border-text-dark/20 text-text-dark/70 hover:bg-text-dark/5 transition-colors font-body text-sm"
-            >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                />
-              </svg>
-              Add to Calendar
-            </a>
+          
           </div>
         </motion.div>
 

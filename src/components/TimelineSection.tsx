@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 
 const schedule = [
   {
-    time: "5:00 PM",
+    time: "7:00 PM",
     title: "Guest Arrival",
-    description: "Welcome & reception at the venue",
+    description: "Time for dramatic entries, endless hugs, and camera flashes.",
     icon: (
       <path
         strokeLinecap="round"
@@ -16,9 +16,9 @@ const schedule = [
     ),
   },
   {
-    time: "5:30 PM",
-    title: "Welcome Drink",
-    description: "Cocktails while we gather",
+    time: "8:00 PM",
+    title: "Dinner",
+    description: "Plates full, diets forgotten, happiness guaranteed",
     icon: (
       <path
         strokeLinecap="round"
@@ -28,9 +28,9 @@ const schedule = [
     ),
   },
   {
-    time: "6:00 PM",
-    title: "Ceremony",
-    description: "The most special moment of the day",
+    time: "9:00 PM",
+    title: "Rasam",
+    description: "The real reason we’re all here: love, laughter, and a little family commentary.",
     icon: (
       <path
         strokeLinecap="round"
@@ -40,9 +40,9 @@ const schedule = [
     ),
   },
   {
-    time: "7:00 PM",
-    title: "Cocktail Hour",
-    description: "Appetizers & drinks in the garden",
+    time: "10:00 PM",
+    title: "Mouj Masti",
+    description: "Music up, heels off, and the dance floor officially taken over.",
     icon: (
       <path
         strokeLinecap="round"
@@ -51,36 +51,12 @@ const schedule = [
       />
     ),
   },
+
+ 
   {
-    time: "9:00 PM",
-    title: "Banquet",
-    description: "Dinner & celebration",
-    icon: (
-      <>
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75l-1.5.75a3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0L3 16.5m15-12.75H6A2.25 2.25 0 003.75 6v0a2.25 2.25 0 002.25 2.25h12A2.25 2.25 0 0020.25 6v0A2.25 2.25 0 0018 3.75z"
-        />
-      </>
-    ),
-  },
-  {
-    time: "12:00 AM",
-    title: "Party",
-    description: "Dance until dawn!",
-    icon: (
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z"
-      />
-    ),
-  },
-  {
-    time: "3:00 AM",
+    time: "11:00 PM",
     title: "End of Party",
-    description: "Farewell & beautiful memories",
+    description: "Tired feet, happy hearts, and memories we’ll laugh about forever.",
     icon: (
       <path
         strokeLinecap="round"
@@ -111,6 +87,21 @@ export default function TimelineSection() {
   return (
     <section className="!pt-10 sm:!pt-14 !pb-24 sm:!pb-32 bg-cream">
       <div className="max-w-6xl !mx-auto !px-4">
+        {/* Desi illustration */}
+        <motion.div
+          className="flex justify-center !mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+        >
+          <img
+            src="/desi-removebg-preview.png"
+            alt="Wedding illustration"
+            className="w-64 sm:w-80 md:w-96 object-contain"
+          />
+        </motion.div>
+
         <motion.h2
           className="font-script text-4xl sm:text-5xl md:text-6xl text-center text-text-dark !mb-3"
           initial={{ opacity: 0, y: 30 }}

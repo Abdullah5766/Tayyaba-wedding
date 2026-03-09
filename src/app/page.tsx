@@ -58,10 +58,10 @@ export default function Home() {
           <CountdownSection />
           <EventDetails />
           <TimelineSection />
-          <AccommodationSection />
-          <FAQSection />
-          <GiftsSection />
-          <RSVPSection />
+          {/* <AccommodationSection /> */}
+          {/* <FAQSection /> */}
+          {/* <GiftsSection /> */}
+          {/* <RSVPSection /> */}
           <Footer />
           <MusicToggle audioRef={audioRef} />
         </motion.div>

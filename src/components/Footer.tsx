@@ -31,7 +31,7 @@ export default function Footer() {
             Tayyaba & Jazib
           </h3>
           <p className="font-body text-dusty-rose/60 text-sm !mb-6">
-            May 8, 2027
+           Your presence will make our celebration even more special, and we can’t wait to share this joyful evening with you.
           </p>
           <p className="font-body text-dusty-rose/40 text-xs">
             Made with love

@@ -26,7 +26,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          We&apos;re Getting Married
+          Save the Date
         </motion.p>
 
         <motion.h1
@@ -60,13 +60,22 @@ export default function HeroSection() {
           Jazib
         </motion.h1>
 
+         <motion.p
+          className="font-script text-xl sm:text-2xl text-champagne/90 !mb-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1 }}
+        >
+          Invite you to celebrate their shendi
+        </motion.p>
+
         <motion.p
           className="font-script text-xl sm:text-2xl text-champagne/90 !mb-12"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1 }}
         >
-          May 8, 2027
+          March &nbsp;<span className="text-champagne/40 font-thin">|</span>&nbsp; 28 &nbsp;<span className="text-champagne/40 font-thin">|</span>&nbsp; 2026
         </motion.p>
 
         <motion.button
@@ -77,7 +86,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 1.2 }}
         >
           <p className="text-xs sm:text-sm tracking-[0.3em] uppercase text-champagne/70 !mb-10 font-body">
-            Confirm Your Attendance
+            We would be delighted by your presence
           </p>
           <motion.div
             animate={{ y: [0, 8, 0] }}
