@@ -21,7 +21,7 @@ export default function HeroSection() {
       {/* Content */}
       <div className="relative z-10 text-center text-text-light !px-4">
         <motion.p
-          className="text-sm sm:text-base tracking-[0.35em] uppercase font-body !mb-6 text-champagne/80"
+          className="text-sm sm:text-base tracking-[0.35em] italic uppercase font-body !mb-6 text-champagne/80"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}

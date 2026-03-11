@@ -1,82 +1,76 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface EnvelopeOpenerProps {
   onOpen: () => void;
 }
 
-export default function EnvelopeOpener({ onOpen }: EnvelopeOpenerProps) {
-  const [stage, setStage] = useState<"sealed" | "opening" | "card-rising" | "done">("sealed");
+// Reusable paper grain overlay
+function PaperGrain({ clipPath }: { clipPath: string }) {
+  return (
+    <div
+      className="absolute inset-0 opacity-[0.12]"
+      style={{
+        clipPath,
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+        mixBlendMode: "multiply" as const,
+      }}
+    />
+  );
+}
 
-  const handleOpen = () => {
+export default function EnvelopeOpener({ onOpen }: EnvelopeOpenerProps) {
+  const [stage, setStage] = useState<"sealed" | "opening" | "done">("sealed");
+
+  const handleOpen = useCallback(() => {
     if (stage !== "sealed") return;
     setStage("opening");
-    // Flap opens for 800ms, then card rises
-    setTimeout(() => setStage("card-rising"), 900);
-    // Card rises for 1200ms, then fade out
-    setTimeout(() => setStage("done"), 2400);
-    setTimeout(() => onOpen(), 3200);
+    setTimeout(() => setStage("done"), 2000);
+    setTimeout(() => onOpen(), 2800);
+  }, [stage, onOpen]);
+
+  const isOpen = stage === "opening" || stage === "done";
+
+  // All clip paths meet at exact center (50% 50%)
+  const clips = {
+    top: "polygon(0 0, 100% 0, 50% 50%)",
+    bottom: "polygon(0 100%, 100% 100%, 50% 50%)",
+    left: "polygon(0 0, 0 100%, 50% 50%)",
+    right: "polygon(100% 0, 100% 100%, 50% 50%)",
   };
 
   return (
     <AnimatePresence>
-      {stage !== "done" ? null : null}
-      <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
-        initial={{ opacity: 1 }}
-        animate={{ opacity: stage === "done" ? 0 : 1 }}
-        transition={{ duration: 0.8 }}
-        style={{
-          background: "linear-gradient(160deg, #F5EDE4 0%, #EDE0D4 40%, #E0D0BF 100%)",
-        }}
-      >
-        {/* Paper texture */}
-        <div
-          className="absolute inset-0 opacity-[0.08]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          }}
-        />
-
-        {/* Envelope container with perspective */}
-        <div className="relative" style={{ perspective: "1200px" }}>
-          {/* Whole envelope */}
+      {stage !== "done" && (
+        <motion.div
+          key="envelope-overlay"
+          className="fixed inset-0 z-50 overflow-hidden"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
+          style={{ backgroundColor: "#FCFCFC" }}
+        >
+          {/* Card content revealed behind the flaps */}
           <motion.div
-            className="relative w-[340px] h-[240px] sm:w-[460px] sm:h-[320px] md:w-[540px] md:h-[370px]"
-            initial={{ scale: 0.85, opacity: 0, y: 30 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
+            className="absolute inset-0 flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={
+              isOpen ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.92 }
+            }
+            transition={{ duration: 0.8, delay: isOpen ? 0.4 : 0 }}
           >
-            {/* === ENVELOPE BACK (bottom layer) === */}
             <div
-              className="absolute inset-0 rounded-md"
+              className="w-[78vw] max-w-[380px] rounded-md overflow-hidden"
               style={{
-                background: "linear-gradient(175deg, #EDE0D4 0%, #DDD0C0 100%)",
-                boxShadow: "0 15px 50px rgba(0,0,0,0.15), 0 5px 15px rgba(0,0,0,0.08)",
+                aspectRatio: "3/4.5",
+                background:
+                  "linear-gradient(180deg, #FFFFFF 0%, #FBF7F2 100%)",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
               }}
-            />
-
-            {/* === CARD inside envelope === */}
-            <motion.div
-              className="absolute left-[8%] right-[8%] bottom-[8%] rounded-sm overflow-hidden"
-              style={{
-                height: "82%",
-                background: "linear-gradient(180deg, #FFFFFF 0%, #FBF7F2 100%)",
-                boxShadow: "0 2px 10px rgba(0,0,0,0.06)",
-                zIndex: 2,
-              }}
-              animate={
-                stage === "card-rising" || stage === "done"
-                  ? { y: "-110%", opacity: stage === "done" ? 0 : 1 }
-                  : { y: 0 }
-              }
-              transition={{ duration: 1.3, ease: [0.4, 0, 0.2, 1] }}
             >
-              {/* Card content */}
               <div className="h-full flex flex-col items-center justify-center !px-6 text-center">
-                <p className="text-[10px] sm:text-xs tracking-[0.3em] uppercase text-burgundy/40 font-body !mb-3">
+                <p className="text-[10px] sm:text-xs tracking-[0.3em] uppercase text-burgundy/80 font-body !mb-3">
                   You are invited to the wedding of
                 </p>
                 <h2 className="font-script text-3xl sm:text-4xl md:text-5xl text-burgundy/80 !mb-1">
@@ -88,7 +82,11 @@ export default function EnvelopeOpener({ onOpen }: EnvelopeOpenerProps) {
                 </h2>
                 <div className="flex items-center !gap-3 !mb-3">
                   <span className="h-px w-8 bg-gold/40" />
-                  <svg className="w-2.5 h-2.5 text-gold/60" fill="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="w-2.5 h-2.5 text-gold/60"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                   </svg>
                   <span className="h-px w-8 bg-gold/40" />
@@ -97,153 +95,304 @@ export default function EnvelopeOpener({ onOpen }: EnvelopeOpenerProps) {
                   May 8, 2027
                 </p>
               </div>
-            </motion.div>
+            </div>
+          </motion.div>
 
-            {/* === ENVELOPE FRONT (covers bottom of card) === */}
+          {/* === FOUR FULL-SCREEN FLAPS — each covers one triangle quadrant === */}
+
+          {/* BOTTOM FLAP */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              transformOrigin: "50% 100%",
+              zIndex: 2,
+            }}
+            animate={isOpen ? { rotateX: 180 } : { rotateX: 0 }}
+            transition={{
+              duration: 0.9,
+              ease: [0.4, 0, 0.2, 1],
+            }}
+          >
             <div
-              className="absolute inset-0 rounded-md"
+              className="absolute inset-0"
               style={{
-                zIndex: 3,
-                clipPath: "polygon(0 40%, 50% 70%, 100% 40%, 100% 100%, 0 100%)",
-                background: "linear-gradient(180deg, #E8DAC8 0%, #DDD0C0 50%, #D4C4B0 100%)",
+                clipPath: clips.bottom,
+                background:
+                  "linear-gradient(0deg, #EDE4DB 0%, #F0E8E0 40%, #F3ECE5 100%)",
               }}
             />
+            <PaperGrain clipPath={clips.bottom} />
+          </motion.div>
 
-            {/* Front fold lines (left and right diagonals from top corners to center) */}
+          {/* LEFT FLAP */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              transformOrigin: "0% 50%",
+              zIndex: 3,
+            }}
+            animate={isOpen ? { rotateY: -180 } : { rotateY: 0 }}
+            transition={{
+              duration: 0.9,
+              ease: [0.4, 0, 0.2, 1],
+              delay: isOpen ? 0.12 : 0,
+            }}
+          >
             <div
-              className="absolute inset-0 rounded-md"
+              className="absolute inset-0"
               style={{
-                zIndex: 4,
-                clipPath: "polygon(0 40%, 50% 70%, 0 100%)",
-                background: "linear-gradient(135deg, #E5D7C5 0%, #DDD0C0 100%)",
-                borderRight: "1px solid rgba(0,0,0,0.04)",
+                clipPath: clips.left,
+                background:
+                  "linear-gradient(90deg, #F0E7DF 0%, #ECE2D9 50%, #E8DDD4 100%)",
+              }}
+            />
+            {/* Edge shadow */}
+            <div
+              className="absolute inset-0"
+              style={{
+                clipPath: clips.left,
+                background:
+                  "linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.05) 100%)",
+              }}
+            />
+            <PaperGrain clipPath={clips.left} />
+          </motion.div>
+
+          {/* RIGHT FLAP */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              transformOrigin: "100% 50%",
+              zIndex: 3,
+            }}
+            animate={isOpen ? { rotateY: 180 } : { rotateY: 0 }}
+            transition={{
+              duration: 0.9,
+              ease: [0.4, 0, 0.2, 1],
+              delay: isOpen ? 0.12 : 0,
+            }}
+          >
+            <div
+              className="absolute inset-0"
+              style={{
+                clipPath: clips.right,
+                background:
+                  "linear-gradient(270deg, #F0E7DF 0%, #ECE2D9 50%, #E8DDD4 100%)",
               }}
             />
             <div
-              className="absolute inset-0 rounded-md"
+              className="absolute inset-0"
               style={{
-                zIndex: 4,
-                clipPath: "polygon(100% 40%, 50% 70%, 100% 100%)",
-                background: "linear-gradient(225deg, #E5D7C5 0%, #DDD0C0 100%)",
-                borderLeft: "1px solid rgba(0,0,0,0.04)",
+                clipPath: clips.right,
+                background:
+                  "linear-gradient(225deg, transparent 50%, rgba(0,0,0,0.05) 100%)",
               }}
             />
+            <PaperGrain clipPath={clips.right} />
+          </motion.div>
 
-            {/* === ENVELOPE FLAP (top triangle, opens upward on click) === */}
-            <motion.div
-              className="absolute top-0 left-0 right-0"
+          {/* TOP FLAP — opens last, on top */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              transformOrigin: "50% 0%",
+              zIndex: 4,
+            }}
+            animate={isOpen ? { rotateX: -180 } : { rotateX: 0 }}
+            transition={{
+              duration: 0.9,
+              ease: [0.4, 0, 0.2, 1],
+              delay: isOpen ? 0.25 : 0,
+            }}
+          >
+            <div
+              className="absolute inset-0"
               style={{
-                height: "45%",
-                zIndex: 5,
-                transformOrigin: "top center",
-                transformStyle: "preserve-3d",
+                clipPath: clips.top,
+                background:
+                  "linear-gradient(180deg, #F5EDE6 0%, #F0E7DF 50%, #EBDFD6 100%)",
               }}
-              animate={
-                stage !== "sealed"
-                  ? { rotateX: 180 }
-                  : { rotateX: 0 }
-              }
-              transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-            >
-              {/* Flap front face */}
+            />
+            {/* Top light */}
+            <div
+              className="absolute inset-0"
+              style={{
+                clipPath: clips.top,
+                background:
+                  "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 50%)",
+              }}
+            />
+            <PaperGrain clipPath={clips.top} />
+          </motion.div>
+
+          {/* Fold edge lines */}
+          <motion.svg
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            style={{ zIndex: 5 }}
+            animate={{ opacity: isOpen ? 0 : 1 }}
+            transition={{ duration: 0.3 }}
+            preserveAspectRatio="none"
+          >
+            <line
+              x1="0"
+              y1="0"
+              x2="50%"
+              y2="50%"
+              stroke="rgba(0,0,0,0.07)"
+              strokeWidth="0.5"
+            />
+            <line
+              x1="100%"
+              y1="0"
+              x2="50%"
+              y2="50%"
+              stroke="rgba(0,0,0,0.07)"
+              strokeWidth="0.5"
+            />
+            <line
+              x1="0"
+              y1="100%"
+              x2="50%"
+              y2="50%"
+              stroke="rgba(0,0,0,0.05)"
+              strokeWidth="0.5"
+            />
+            <line
+              x1="100%"
+              y1="100%"
+              x2="50%"
+              y2="50%"
+              stroke="rgba(0,0,0,0.05)"
+              strokeWidth="0.5"
+            />
+          </motion.svg>
+
+          {/* === WAX SEAL === */}
+          <motion.button
+            onClick={handleOpen}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+            style={{ zIndex: 20 }}
+            whileHover={stage === "sealed" ? { scale: 1.06 } : {}}
+            whileTap={stage === "sealed" ? { scale: 0.94 } : {}}
+            animate={
+              isOpen
+                ? { scale: 0.3, opacity: 0 }
+                : { scale: 1, opacity: 1 }
+            }
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
+            <div className="relative">
+              {/* Shadow under seal */}
               <div
-                className="absolute inset-0"
+                className="absolute -inset-2 rounded-full"
                 style={{
-                  clipPath: "polygon(0 0, 50% 100%, 100% 0)",
-                  background: "linear-gradient(180deg, #EDE0D4 0%, #E0D0BF 100%)",
-                  backfaceVisibility: "hidden",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                  background:
+                    "radial-gradient(circle, rgba(74,27,38,0.3) 0%, transparent 70%)",
+                  filter: "blur(8px)",
                 }}
               />
-              {/* Flap back face (visible when opened) */}
+              {/* Main wax body */}
               <div
-                className="absolute inset-0"
+                className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-full"
                 style={{
-                  clipPath: "polygon(0 0, 50% 100%, 100% 0)",
-                  background: "linear-gradient(0deg, #D8C8B4 0%, #CDBDA8 100%)",
-                  backfaceVisibility: "hidden",
-                  transform: "rotateX(180deg)",
+                  background:
+                    "radial-gradient(circle at 35% 30%, #A8556A 0%, #8B3B50 20%, #6B2737 50%, #5A1F2E 75%, #4A1826 100%)",
+                  boxShadow: `
+                    0 10px 35px rgba(74, 27, 38, 0.5),
+                    0 4px 12px rgba(0,0,0,0.2),
+                    inset 0 2px 4px rgba(255,200,200,0.15),
+                    inset 0 -3px 6px rgba(0,0,0,0.3),
+                    inset 2px 0 4px rgba(255,200,200,0.05),
+                    inset -2px 0 4px rgba(0,0,0,0.15)
+                  `,
                 }}
-              />
-            </motion.div>
-
-            {/* === WAX SEAL === */}
-            <motion.button
-              onClick={handleOpen}
-              className="absolute left-1/2 -translate-x-1/2 cursor-pointer"
-              style={{
-                top: "32%",
-                zIndex: stage === "sealed" ? 10 : 1,
-              }}
-              whileHover={stage === "sealed" ? { scale: 1.06 } : {}}
-              whileTap={stage === "sealed" ? { scale: 0.95 } : {}}
-              animate={
-                stage !== "sealed"
-                  ? { scale: 0.8, opacity: 0, y: -30 }
-                  : { scale: 1, opacity: 1, y: 0 }
-              }
-              transition={{ duration: 0.5, ease: "easeOut" }}
-            >
-              {/* Outer ring */}
-              <div className="relative">
+              >
+                {/* Wax texture */}
                 <div
-                  className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full flex flex-col items-center justify-center"
+                  className="absolute inset-0 rounded-full opacity-[0.15]"
                   style={{
-                    background: "radial-gradient(circle at 38% 38%, #9B4A5A, #6B2737 45%, #4A1B26 100%)",
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+                    mixBlendMode: "overlay" as const,
+                  }}
+                />
+
+                {/* Embossed outer ring */}
+                <div
+                  className="absolute inset-[14%] rounded-full"
+                  style={{
+                    border: "2px solid rgba(255,255,255,0.08)",
                     boxShadow:
-                      "0 6px 25px rgba(107, 39, 55, 0.45), 0 2px 8px rgba(0,0,0,0.15), inset 0 1px 2px rgba(255,255,255,0.12), inset 0 -1px 3px rgba(0,0,0,0.2)",
+                      "inset 0 1px 1px rgba(255,255,255,0.1), 0 1px 1px rgba(0,0,0,0.15)",
+                  }}
+                />
+
+                {/* Inner circle with monogram */}
+                <div
+                  className="absolute inset-[18%] rounded-full flex flex-col items-center justify-center"
+                  style={{
+                    background:
+                      "radial-gradient(circle at 40% 35%, rgba(255,255,255,0.04), transparent 60%)",
+                    boxShadow:
+                      "inset 0 1px 2px rgba(255,255,255,0.06), inset 0 -1px 2px rgba(0,0,0,0.1)",
                   }}
                 >
-                  {/* Inner circle (embossed look) */}
-                  <div
-                    className="w-[78%] h-[78%] rounded-full flex flex-col items-center justify-center border"
+                  <span
+                    className="font-script text-2xl sm:text-3xl md:text-4xl leading-none"
                     style={{
-                      borderColor: "rgba(255,255,255,0.08)",
-                      background: "radial-gradient(circle at 40% 40%, rgba(255,255,255,0.06), transparent 70%)",
+                      color: "rgba(255,220,225,0.45)",
+                      textShadow:
+                        "0 1px 1px rgba(0,0,0,0.3), 0 -1px 0 rgba(255,255,255,0.06)",
                     }}
                   >
-                    <span className="font-script text-2xl sm:text-3xl md:text-4xl text-champagne/85 leading-none">
-                      T & J
-                    </span>
-                    <svg
-                      className="w-4 h-4 !mt-0.5 text-champagne/50"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                    </svg>
-                  </div>
+                    T & J
+                  </span>
+                  <img
+                    src="/flower.svg"
+                    alt="Flower"
+                    className="w-4 h-4 !mt-1"
+                    style={{
+                      opacity: 0.35,
+                      filter: "drop-shadow(0 1px 1px rgba(0,0,0,0.3)) brightness(2)",
+                    }}
+                  />
                 </div>
+
+                {/* Specular highlight */}
+                <div
+                  className="absolute rounded-full"
+                  style={{
+                    top: "12%",
+                    left: "18%",
+                    width: "35%",
+                    height: "25%",
+                    background:
+                      "radial-gradient(ellipse, rgba(255,255,255,0.12) 0%, transparent 70%)",
+                    transform: "rotate(-20deg)",
+                  }}
+                />
               </div>
-            </motion.button>
-          </motion.div>
+            </div>
+          </motion.button>
 
           {/* "Tap to open" hint */}
           <motion.p
-            className="text-center !mt-8 text-[#8B7D6B]/60 text-xs sm:text-sm tracking-[0.2em] uppercase font-body"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{
-              opacity: stage === "sealed" ? 1 : 0,
-              y: stage === "sealed" ? 0 : -10,
+            className="absolute left-0 right-0 text-center text-xs sm:text-sm tracking-[0.25em] uppercase font-body"
+            style={{
+              bottom: "max(6vh, 30px)",
+              zIndex: 10,
+              color: "rgba(139,125,107,0.5)",
             }}
-            transition={{ delay: stage === "sealed" ? 1.2 : 0, duration: 0.6 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: stage === "sealed" ? 1 : 0 }}
+            transition={{
+              delay: stage === "sealed" ? 1.4 : 0,
+              duration: 0.6,
+            }}
           >
             Tap the seal to open
           </motion.p>
-        </div>
-
-        {/* Cursive text peeking at the bottom (like the reference) */}
-        <motion.div
-          className="absolute bottom-6 sm:bottom-10 left-0 right-0 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: stage === "sealed" ? 1 : 0, y: 0 }}
-          transition={{ delay: 1.5, duration: 0.8 }}
-        >
-          <p className="font-script text-2xl sm:text-3xl text-[#8B7D6B]/70">
-            We invite you to celebrate...
-          </p>
         </motion.div>
-      </motion.div>
+      )}
     </AnimatePresence>
   );
 }

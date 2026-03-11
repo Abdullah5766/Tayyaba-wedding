@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CalendarHeart } from "lucide-react";
 
 export default function EventDetails() {
   return (
@@ -15,12 +14,12 @@ export default function EventDetails() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <CalendarHeart className="w-10 h-10 !mx-auto text-[#C9A84C]" strokeWidth={1.5} />
+          <img src="/calendar.svg" alt="Calendar" className="w-10 h-10 !mx-auto" />
         </motion.div>
 
         {/* Heading */}
         <motion.h2
-          className="font-script text-4xl sm:text-5xl md:text-6xl text-center text-text-dark !mb-3"
+          className="font-script text-4xl sm:text-5xl md:text-6xl text-center text-text-dark !mb-0.5"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}

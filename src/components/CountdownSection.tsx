@@ -58,7 +58,7 @@ export default function CountdownSection() {
     <section className="!py-24 sm:!py-32 bg-navy text-text-light">
       <div className="max-w-5xl !mx-auto !px-4 text-center">
         <motion.h2
-          className="font-script text-4xl sm:text-5xl md:text-6xl !mb-4 text-champagne"
+          className="font-script text-4xl sm:text-5xl md:text-6xl !mb-1 text-champagne"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -67,7 +67,7 @@ export default function CountdownSection() {
           Counting Down
         </motion.h2>
         <motion.p
-          className="text-dusty-rose/80 font-body text-base sm:text-lg !mb-14"
+          className="text-dusty-rose/80 font-body text-base sm:text-lg !mb-6"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-100px" }}
