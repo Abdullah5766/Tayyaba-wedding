@@ -53,7 +53,7 @@ const itemVariants = {
 
 export default function TimelineSection() {
   return (
-    <section className="!pt-1 sm:!pt-14 !pb-24 sm:!pb-32 bg-cream">
+    <section className="relative !pt-1 sm:!pt-14 !pb-24 sm:!pb-32 bg-cream overflow-hidden">
       <div className="max-w-6xl !mx-auto !px-4">
         {/* Desi illustration */}
         <motion.div
@@ -136,6 +136,14 @@ export default function TimelineSection() {
           ))}
         </motion.div>
       </div>
+
+      {/* Bottom-left floral decoration */}
+      <img
+        src="/floral-right.svg"
+        alt=""
+        className="absolute left-0 bottom-0 h-48 sm:h-64 w-auto pointer-events-none z-0"
+        style={{ transform: "scaleX(-1)" }}
+      />
     </section>
   );
 }

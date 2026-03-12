@@ -20,7 +20,7 @@ export default function HeroSection() {
       <div className="relative z-10 flex-1 flex items-center justify-center !px-4">
         <div className="text-center" style={{ maxWidth: "min(70vw, 360px)" }}>
           <motion.p
-            className="text-xs sm:text-sm tracking-[0.35em] italic uppercase font-body !mb-3 text-burgundy/60"
+            className="text-xs sm:text-sm tracking-[0.35em] italic uppercase font-body !mb-3 text-gray-600"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -67,12 +67,12 @@ export default function HeroSection() {
           </motion.p>
 
           <motion.p
-            className="font-script text-base sm:text-lg text-burgundy/70 !mb-4"
+            className="font-script text-base sm:text-lg text-burgundy/70 !mb-14 font-bold"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1 }}
           >
-            March &nbsp;<span className="text-burgundy/30 font-thin">|</span>&nbsp; 28 &nbsp;<span className="text-burgundy/30 font-thin">|</span>&nbsp; 2026
+            March &nbsp;<span className="text-burgundy/30 font-bold">|</span>&nbsp; 28 &nbsp;<span className="text-burgundy/30 font-bold">|</span>&nbsp; 2026
           </motion.p>
 
           <motion.button
@@ -89,6 +89,7 @@ export default function HeroSection() {
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
+              className="!mt-8"
             >
               <svg
                 className="w-5 h-5 !mx-auto text-burgundy/40"
