@@ -13,7 +13,7 @@ export default function HeroSection() {
       <img
         src="/hero.svg"
         alt=""
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-full max-h-screen w-auto object-contain pointer-events-none"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-full max-h-screen w-auto object-cover pointer-events-none"
       />
 
       {/* Content centered inside the floral ring */}
@@ -106,16 +106,16 @@ export default function HeroSection() {
             </motion.div>
             </div>
           </motion.button>
-        </div>
-      </div>
 
-      {/* Divider */}
-      <div className="relative z-10 flex items-center justify-center !gap-3 !pb-8">
-        <span className="h-[1px] w-16 bg-burgundy/20" />
-        <svg className="w-3 h-3 text-burgundy/30" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-        </svg>
-        <span className="h-[1px] w-16 bg-burgundy/20" />
+          {/* Divider */}
+          {/* <div className="flex items-center justify-center !gap-3 !mt-8">
+            <span className="h-[1px] w-16 bg-burgundy/20" />
+            <svg className="w-3 h-3 text-burgundy/30" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+            </svg>
+            <span className="h-[1px] w-16 bg-burgundy/20" />
+          </div> */}
+        </div>
       </div>
     </section>
   );
