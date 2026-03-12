@@ -4,8 +4,22 @@ import { motion } from "framer-motion";
 
 export default function EventDetails() {
   return (
-    <section className="!pt-24 sm:!pt-32 !pb-10 sm:!pb-14 bg-cream">
-      <div className="max-w-3xl !mx-auto !px-4">
+    <section className="relative !pt-24 sm:!pt-32 !pb-10 sm:!pb-14 bg-cream overflow-hidden">
+      {/* Floral top-left (mirrored) */}
+      <img
+        src="/floral-right.svg"
+        alt=""
+        className="absolute left-0 top-0 h-48 sm:h-64 w-auto pointer-events-none z-0"
+        style={{ transform: "scaleX(-1)" }}
+      />
+      {/* Floral bottom-right */}
+      <img
+        src="/floral-right.svg"
+        alt=""
+        className="absolute right-0 bottom-0 h-48 sm:h-64 w-auto pointer-events-none z-0"
+      />
+
+      <div className="relative z-10 max-w-3xl !mx-auto !px-4">
         {/* Icon */}
         <motion.div
           className="text-center !mb-4"
@@ -19,7 +33,7 @@ export default function EventDetails() {
 
         {/* Heading */}
         <motion.h2
-          className="font-script text-4xl sm:text-5xl md:text-6xl text-center text-text-dark !mb-0.5"
+          className="font-great-vibes font-medium text-4xl sm:text-5xl md:text-6xl text-center text-text-dark !mb-1"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -39,7 +53,7 @@ export default function EventDetails() {
 
         {/* Details Card */}
         <motion.div
-          className="bg-champagne/50 rounded-2xl !p-8 sm:!p-12 shadow-sm"
+          className="bg-champagne rounded-2xl !p-8 sm:!p-12 shadow-sm relative z-10"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}

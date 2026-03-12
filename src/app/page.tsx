@@ -20,7 +20,7 @@ export default function Home() {
 
   // Preload audio during envelope stage
   useEffect(() => {
-    const audio = new Audio("/music/background.mp3");
+    const audio = new Audio("/music/music.mpeg");
     audio.preload = "auto";
     audio.loop = false;
     audio.volume = 0.3;

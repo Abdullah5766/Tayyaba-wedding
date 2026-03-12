@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -7,7 +7,7 @@
   --dusty-rose: #D4949C;
   --rose-gold: #B46471;
   --champagne: #F5E6E0;
-  --cream: #FCFCFC;
+  --cream: #FCFBF6;
   --navy: #1B2A4A;
   --navy-light: #2D3F5E;
   --gold: #C9A84C;
@@ -49,6 +49,10 @@ body {
 .font-script {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
+}
+
+.font-great-vibes {
+  font-family: 'Great Vibes', cursive;
 }
 
 .font-display {

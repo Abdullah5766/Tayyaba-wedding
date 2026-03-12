@@ -12,7 +12,7 @@ const schedule = [
   {
     time: "8:00 PM",
     title: "Dinner",
-    description: "Plates full, diets forgotten, happiness guaranteed",
+    description: "Plates full, diets forgotten, happiness guaranteed every bite.",
     image: "/dinner.svg",
   },
   {
@@ -71,7 +71,7 @@ export default function TimelineSection() {
         </motion.div>
 
         <motion.h2
-          className="font-script text-4xl sm:text-5xl md:text-6xl text-center text-text-dark !mb-1"
+          className="font-great-vibes text-4xl sm:text-5xl md:text-6xl text-center text-text-dark !mb-4"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -105,11 +105,11 @@ export default function TimelineSection() {
             >
               {/* Left: Icon + Connecting line */}
               <div className="flex flex-col items-center shrink-0">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-burgundy/50 bg-cream flex items-center justify-center z-10 overflow-hidden">
+                <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-full border-2 border-burgundy/20 bg-cream flex items-center justify-center z-10 overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-7 h-7 sm:w-8 sm:h-8 object-contain"
+                    className="w-5 h-5 sm:w-7 sm:h-7 object-contain"
                   />
                 </div>
                 {/* Vertical line connecting to next icon */}

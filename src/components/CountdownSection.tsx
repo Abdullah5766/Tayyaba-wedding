@@ -55,10 +55,17 @@ export default function CountdownSection() {
   ];
 
   return (
-    <section className="!py-24 sm:!py-32 bg-navy text-text-light">
-      <div className="max-w-5xl !mx-auto !px-4 text-center">
+    <section className="relative !pt-12 sm:!pt-12 bg-cream overflow-hidden">
+      {/* Floral decoration on the right */}
+      <img
+        src="/floral-right.svg"
+        alt=""
+        className="absolute right-0 top-1/2 -translate-y-1/2 h-3/4 w-auto object-contain pointer-events-none"
+      />
+
+      <div className="relative z-10 max-w-5xl !mx-auto !px-4 text-center">
         <motion.h2
-          className="font-script text-4xl sm:text-5xl md:text-6xl !mb-1 text-champagne"
+          className="font-great-vibes text-4xl sm:text-5xl md:text-6xl !mb-1 text-text-dark"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -67,7 +74,7 @@ export default function CountdownSection() {
           Counting Down
         </motion.h2>
         <motion.p
-          className="text-dusty-rose/80 font-body text-base sm:text-lg !mb-6"
+          className="text-text-dark/60 font-body text-base sm:text-lg !mb-6"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -87,17 +94,26 @@ export default function CountdownSection() {
             <motion.div
               key={unit.label}
               variants={itemVariants}
-              className="bg-white/10 backdrop-blur-sm rounded-xl !p-6 sm:!p-8 border border-white/10"
+              className="bg-white/60 backdrop-blur-sm rounded-xl !p-6 sm:!p-8 border border-burgundy/10"
             >
-              <span className="font-display text-4xl sm:text-5xl md:text-6xl font-light text-white">
+              <span className="font-display text-4xl sm:text-5xl md:text-6xl font-light text-text-dark">
                 {mounted ? unit.value : "--"}
               </span>
-              <p className="!mt-2 text-xs sm:text-sm tracking-[0.25em] uppercase text-dusty-rose/70 font-body">
+              <p className="!mt-2 text-xs sm:text-sm tracking-[0.25em] uppercase text-burgundy/60 font-body">
                 {unit.label}
               </p>
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Divider */}
+        <div className="flex items-center justify-center !gap-3 !mt-16">
+          <span className="h-[1px] w-16 bg-burgundy/20" />
+          <svg className="w-3 h-3 text-burgundy/30" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+          </svg>
+          <span className="h-[1px] w-16 bg-burgundy/20" />
+        </div>
       </div>
     </section>
   );
