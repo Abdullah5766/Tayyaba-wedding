@@ -11,7 +11,7 @@ const schedule = [
   },
   {
     time: "8:00 PM",
-    title: "Dinner",
+    title: "Roti Shoti",
     description: "Plates full, diets forgotten, happiness guaranteed every bite.",
     image: "/dinner.svg",
   },
