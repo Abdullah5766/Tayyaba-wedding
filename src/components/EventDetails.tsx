@@ -18,7 +18,6 @@ export default function EventDetails() {
         alt=""
         className="absolute right-0 bottom-0 h-48 sm:h-64 w-auto pointer-events-none z-0"
       />
-
       <div className="relative z-10 max-w-3xl !mx-auto !px-4">
         {/* Icon */}
         <motion.div
