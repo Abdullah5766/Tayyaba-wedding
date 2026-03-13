@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import EnvelopeOpener from "@/components/EnvelopeOpener";
 import HeroSection from "@/components/HeroSection";
@@ -18,30 +18,23 @@ export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Preload audio during envelope stage
-  useEffect(() => {
-    const audio = new Audio("/music/music.mpeg");
-    audio.preload = "auto";
-    audio.loop = false;
-    audio.volume = 0.3;
-    audio.currentTime = 26;
-    audioRef.current = audio;
-
-    return () => {
-      audio.pause();
-    };
-  }, []);
-
   const handleOpen = () => {
-    // Start music immediately on user interaction (seal tap)
-    if (audioRef.current) {
-      audioRef.current.play().catch(() => {});
+    // Start music on user interaction (seal tap) — must be in the same call stack
+    const audio = audioRef.current;
+    if (audio) {
+      audio.volume = 0.3;
+      audio.currentTime = 26;
+      audio.play().catch(() => {});
     }
     setIsOpen(true);
   };
 
   return (
     <main>
+      <audio ref={audioRef} preload="auto" playsInline>
+        <source src="/music/music.mp3" type="audio/mpeg" />
+        <source src="/music/music.mpeg" type="audio/mpeg" />
+      </audio>
       <AnimatePresence mode="wait">
         {!isOpen && (
           <EnvelopeOpener key="envelope" onOpen={handleOpen} />
